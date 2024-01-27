@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('photo')->nullable();
             $table->text('description')->nullable(); 
-            $table->decimal('price', 10, 2); // Ціна товару з точністю до двох знаків після коми
+            $table->decimal('price', 10, 2); // Ціна товару до двох знаків після коми
             $table->bigInteger("category_id")->constrained()->onDelete('cascade');
             $table->timestamps();
         });

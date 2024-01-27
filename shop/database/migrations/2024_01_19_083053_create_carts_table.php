@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("product_id_id")->constrained();
-            $table->integer('quantity');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->nullable();
+            $table->string('session_id'); // ідентифікатор сесії користувача
             $table->timestamps();
         });
     }
