@@ -2,7 +2,6 @@
 
 @section('statistic')
 
-{{-- @include('admin.index')   --}}
  <main id="main" class="main">
 
    <h1>Стаорення товару</h1>

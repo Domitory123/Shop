@@ -20,12 +20,12 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
+            <a href="{{ route('product.create') }}">
               <i class="bi bi-circle"></i><span>Товари</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="{{ route('category.create') }}">
               <i class="bi bi-circle"></i><span>Категорії</span>
             </a>
           </li>

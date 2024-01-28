@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Services\CategoryService;
 
-use function PHPUnit\Framework\isNull;
 
 class CategoryController extends Controller
 {
@@ -32,14 +32,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category();  
-         
-        if (!is_null($request->input('category')))
-            $category->parent_id=$request->input('category');
-
-        $category->name=$request->input('name');
-        $category->save();
-       
+        CategoryService::store($request); 
         return redirect()->route('category.index');  
     }
 

@@ -18,7 +18,7 @@ class AuthService
         $data['password'] = bcrypt($data['password']);
         User::create($data);
 
-        if (!Auth::attempt($request->only(['email', 'password']), $request->has('remember'))) {
+        if (!auth()->attempt($request->only(['email', 'password']), $request->has('remember'))) {
             return redirect()->back();
         }
         
@@ -33,9 +33,9 @@ class AuthService
      */
    public static function  postSigin($request)
     {
-        if (!Auth::attempt($request->only(['email','password']),$request->has('remember')))
-         return true;
-        
+        if (!auth()->attempt($request->only(['email','password']),$request->has('remember'))) {
+            return true;
+        }
        return false;
     }
    

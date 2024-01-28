@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Auth;
 use App\Services\CartService;
 
 class CartController extends Controller
@@ -15,21 +12,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = null;
-
-        if (Auth::check())
-        {
-            if (!is_null(Auth::user()->cart))
-            {
-                $cart = Auth::user()->cart;
-            }
-        }
-        else 
-        {
-            $guestSessionId = Cookie::get('guest_session_id');
-            $cart = Cart::where('session_id', $guestSessionId)->first();   
-        }
-            
+        $cart = CartService::index();
         return view('cart.index', compact('cart'));
     }
 

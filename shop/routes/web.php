@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,22 +23,18 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-//->middleware(['admin'])
-Route::prefix('product')->controller(ProductController::class)->group(function () {
+Route::prefix('product')->controller(ProductController::class)->middleware(['admin'])->group(function () {
     Route::get('/create','create')->name('product.create');
     Route::post('/product','store')->name('product.store'); 
     Route::get('/showDestroy/{product}','showDestroy')->name('productPage.destroy');
     Route::get('/destroy/{product}','destroy')->name('product.destroy');
     Route::get('/edit/{product}','edit')->name('product.edit');
     Route::post('/update/{product}','update')->name('product.update');
-
-    Route::get('/product', 'index')->name('product.index');
   });
 
   Route::prefix('product')->controller(ProductController::class)->group(function () {
-   // Route::get('/index','index')->name('product.index');
-   // Route::get('/show/{product}','show')->name('product.show');
-   
+    Route::get('/product', 'index')->name('product.index');
+    
    });
 
 
@@ -56,21 +54,24 @@ Route::prefix('product')->controller(ProductController::class)->group(function (
     Route::get('login', 'getSigin')->name('getSigin');
     Route::post('login', 'postSigin')->name('postSigin');
     Route::get('logout', 'logout')->name('logout');
+});
 
-    Route::get('admin', 'admin')->name('admin');
+
+Route::controller(AdminController::class)->middleware(['admin'])->group(function () {
+  Route::get('admin', 'admin')->name('admin');
+
 });
 
 Route::controller(CartController::class)->group(function () {
 Route::get('/cart','index')->name('cart.index');
 Route::post('/cart/add','store')->name('cart.addToCart');
-Route::delete('/cart/remove/{id}', 'removeFromCart')->name('cart.removeFromCart');
-});
 
+});
 
 Route::controller(OrderController::class)->group(function () {
   Route::get('/buy','buy')->name('buy');
   Route::post('/order','order')->name('order');
   Route::get('/show', 'show')->name('order.show');
-
 });
+
 

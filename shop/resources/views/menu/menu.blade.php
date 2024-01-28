@@ -11,16 +11,13 @@
             <a class="nav-link active" aria-current="page" href="{{route('product.index')}}">Товари</a>
           </li>
 
-          @if (Auth::check())
+          @if (auth()->check()&& auth()->user()->isAdmin())
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin') }}">Адмінка</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('product.create') }}">добавлення товару</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('category.create') }}">добавлення категорії</a>
-          </li>
+          @endif
+    
+          @if (auth()->check())
           <li class="nav-item">
             <a class="nav-link" href="{{ route('order.show') }}">замовлення</a>
           </li>

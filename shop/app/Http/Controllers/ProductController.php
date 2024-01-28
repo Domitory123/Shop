@@ -5,12 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\User;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
@@ -31,9 +26,9 @@ class ProductController extends Controller
         $products = Product::get();
         $categories = Category::get();
         return view('product.create',compact('categories','products'));
+
+       // чомусь не підгружаються стилі до бокової менюшки 
         //return view('admin.create',compact('categories','products'));
-
-
     }
 
     /**
@@ -41,13 +36,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product();
-        $product->description=$request->input('description');
-        $product->name=$request->input('name');
-        $product->price=$request->input('price');
-        $product->category_id=$request->input('category');
-        $product->save();
-
+        ProductService::store($request);
         return redirect()->route('product.index');  
     }
 
