@@ -38,7 +38,7 @@ Route::prefix('product')->controller(ProductController::class)->middleware(['adm
    });
 
 
-  Route::prefix('category')->controller(CategoryController::class)->group(function () {
+  Route::prefix('category')->controller(CategoryController::class)->middleware(['admin'])->group(function () {
     Route::get('/categories', 'index')->name('category.index');
     Route::get('/create','create')->name('category.create');
     Route::post('/category','store')->name('category.store'); 
