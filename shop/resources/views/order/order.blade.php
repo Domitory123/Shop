@@ -1,8 +1,8 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
 
-<h1>Замовлення сформовано</h1> 
+<h1>Замовлення</h1> 
 
 @foreach($orders as $order)
 
