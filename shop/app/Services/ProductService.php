@@ -13,16 +13,8 @@ class ProductService
      */
     public static function store($request)
     {
-        $data = [
-            'description' =>  $request->input('description'),
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'category_id' => $request->input('category'),
-        ];
-
-        Product::create($data); 
+        Product::create($request->all());
     }
 
     
-
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
@@ -20,7 +21,7 @@ class AdminController extends Controller
      $totalPrice = 0;
      $quantity = 0;
 
-      foreach ($orders as $order) {
+    foreach ($orders as $order) {
          foreach ($order->products as $product) {
               $quantity += $product->pivot->quantity;
               $totalPrice += $product->pivot->price;

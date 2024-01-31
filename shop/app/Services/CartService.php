@@ -46,7 +46,8 @@ class CartService
         $sessionId = session()->getId();
         $guestSessionId = Cookie::get('guest_session_id');
     
-    if (is_null($guestSessionId)) {        
+    if (is_null($guestSessionId)) 
+    {        
         $minutes = 3*24*60;
         Cookie::queue(Cookie::make('guest_session_id', $sessionId, $minutes));
         $cart = new Cart();
@@ -54,7 +55,8 @@ class CartService
         $cart->save();
 
         $cart->products()->attach($productId, ['quantity' => 1]);
-    } else {
+    } else 
+    {
         //якщо товар вже додано то збільшити його кількість якщо якщо ні просто додати його 
         $cart = Cart::where('session_id', $guestSessionId)->first();
         $cartProduct = $cart->products->find($productId);
@@ -82,13 +84,15 @@ class CartService
     $productId = $request->input('product_id');
     $user = auth()->user();
  
-    if (is_null($user->cart)) {
+    if (is_null($user->cart)) 
+    {
         $cart = new Cart();
         $cart->user_id = $user->id;
         $cart->session_id = 0;
         $cart->save();
         $cart->products()->attach($productId, ['quantity' => 1]);  
-    } else {
+    } else 
+    {
         $cart = $user->cart;
         $cartProduct = $cart->products->find($productId);
     

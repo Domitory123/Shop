@@ -24,10 +24,9 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
-    public static function getCategory()
+    public function scopeGetCategory($query)
     {
-        $categories = Category::whereNull('parent_id')->get();
-        return $categories;
+        return $query->whereNull('parent_id');
     }
 
 }

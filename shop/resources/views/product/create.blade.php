@@ -11,7 +11,7 @@
         {{ csrf_field() }}	
         
         <p>Категорія</p>
-       <select name="category"> 
+       <select name="category_id"> 
         @foreach($categories  as $category)
           <option value="{{$category->id}}">{{$category->name}}</option>
         @endforeach 

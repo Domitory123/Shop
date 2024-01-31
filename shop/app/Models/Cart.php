@@ -13,10 +13,4 @@ class Cart extends Model
     {
         return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
-
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
-
 }
