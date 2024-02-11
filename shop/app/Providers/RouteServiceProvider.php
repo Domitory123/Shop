@@ -37,6 +37,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 
             Route::middleware('web')
+              //  ->middleware(['admin']) // тут не хоче перевіряти, бо при перевірці чи адмін каже що auth()->user null 
                 ->group(base_path('routes/admin.php'));
 
         });
