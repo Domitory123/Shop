@@ -24,6 +24,17 @@
         </div>
         <div class="col-md-6">
             <h3><b>Дані для замовлення </b></h3>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        
             <form action="{{ route('order') }}"  method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}	
         

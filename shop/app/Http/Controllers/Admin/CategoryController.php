@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Services\CategoryService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::getCategory()->get();
+        $categories = Category::getMainCategory()->get();
         return view('category.index',compact('categories'));
     }
 
@@ -30,9 +31,18 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        CategoryService::store($request); 
+        $request->validated();
+        $category = new Category();  
+         
+        if (!is_null($request->input('category'))){
+            $category->parent_id=$request->input('category');
+        }
+            
+        $category->name=$request->input('name');
+        $category->save();  
+        
         return redirect()->route('category.index');  
     }
 

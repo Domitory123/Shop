@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -35,9 +36,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        ProductService::store($request);
+        $request->validated();
+        Product::create($request->all());
         return redirect()->route('product.index');  
     }
 

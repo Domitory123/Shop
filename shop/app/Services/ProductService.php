@@ -13,7 +13,7 @@ class ProductService
      */
     public static function store($request)
     {
-        Product::create($request->all());
+       
     }
 
     

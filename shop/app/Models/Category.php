@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-
+    
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
@@ -24,7 +24,7 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id');
     }
 
-    public function scopeGetCategory($query)
+    public function scopeGetMainCategory($query)
     {
         return $query->whereNull('parent_id');
     }
