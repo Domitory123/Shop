@@ -25,13 +25,13 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('product')->controller(ProductController::class)->group(function () {
-    Route::get('/', 'index')->name('product.index');   
+    Route::get('/', 'index')->name('product.index');  
+    Route::get('/{product}', 'show')->name('product.show'); 
 });
    
 Route::controller(CartController::class)->group(function () {
   Route::get('/cart','index')->name('cart.index');
   Route::post('/cart/add','store')->name('cart.addToCart');
-
 });
 
 Route::controller(UserController::class)->middleware(['auth'])->group(function () {

@@ -14,21 +14,31 @@ class AdminController extends Controller
  // вивід інформації про продажі, дохід, кількість користувачів 
  public function admin()
  {
-     $dayAgo = Carbon::now()->subDay();
-     $orders = Order::where('created_at', '>=', $dayAgo)->get();
-     $countUser = User::count();
-    
-     $totalPrice = 0;
-     $quantity = 0;
+    $dayAgo = Carbon::now()->subDay();
+    //це chat gpt написав, я дрохи розібрався в запиті (як він працює) 
+    $totalPrice = Order::with('products')->where('created_at', '>=', $dayAgo)
+     ->get()
+     ->flatMap(function ($order) {
+        return $order->products->map(function ($product) {
+            return [
+                'quantity' => $product->pivot->quantity,
+                'price' => $product->pivot->price,
+            ];
+        });
+     })
+     ->reduce(function ($carry, $item) {
+        return [
+            'quantity' => $carry['quantity'] + $item['quantity'],
+            'price' => $carry['price'] + $item['price'],
+        ];
+     }, ['quantity' => 0, 'price' => 0]);
 
-    foreach ($orders as $order) {
-         foreach ($order->products as $product) {
-              $quantity += $product->pivot->quantity;
-              $totalPrice += $product->pivot->price;
-         }
-      }
-    
-     return view('admin.statistic' ,compact('quantity','totalPrice','countUser' ));
+     
+    return view('admin.statistic' ,[
+          'quantity' => $totalPrice['quantity'],
+          'totalPrice' => $totalPrice['price'],
+          'countUser' => User::count(),
+      ]);
  }
 
 

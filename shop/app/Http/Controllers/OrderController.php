@@ -33,12 +33,12 @@ class OrderController extends Controller
       $request->validated();
       
       if (auth()->check()) {
-            $this->orderAuth($request);
+            $this->orderAuth($request->all());
             return redirect()->route('product.index');
       }
 
       $cart = Cart::where('session_id', Cookie::get('guest_session_id'))->first();  
-      $order =  $this->store($request,0);
+      $order =  $this->store($request->all());
           
       foreach ($cart->products as $product) {
         $order
@@ -56,10 +56,10 @@ class OrderController extends Controller
        return redirect()->route('product.index');
     }
   
-    public  function orderAuth($request)
+    public  function orderAuth($orderData)
     {
         $user = auth()->user();
-        $order = $this->store($request,$user->id);
+        $order = $this->store($orderData,$user->id);
       
         foreach ($user->cart->products as $product) {
             $order
@@ -71,28 +71,24 @@ class OrderController extends Controller
     }
 
 
-    public  function store($request, $idUser)
+    public  function store($orderData, $idUser = 0)
     {
         $data = [
             'user_id' => $idUser,
-            'phone' => $request->phone,
-            'delivery_address' => $request->delivery_address,
-            'comment' => $request->comment,
-            'name_user' => $request->name_user,
+            'phone' => $orderData['phone'],
+            'delivery_address' => $orderData['delivery_address'],
+            'comment' => $orderData['comment'],
+            'name_user' => $orderData['name_user'],
             'status' => Lang::get('base.status') ,
         ];
 
      return  Order::create($data);
-
     }
 
     public function show()
     {    
        $orders = auth()->user()->orders;
-       return view('order.order' ,compact('orders') );
-        
+       return view('order.order' ,compact('orders'));    
     }
-
-
 
 }

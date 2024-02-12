@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\AdminController;
   Route::get('product/showDestroy/{product}', 'ProductController@showDestroy')->name('productPage.destroy');
   
   Route::controller(AdminController::class)->group(function () {
-    Route::get('admin', 'admin')->name('admin');
+    Route::get('/', 'admin')->name('admin');
   });
   
 //});

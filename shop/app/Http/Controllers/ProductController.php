@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductService;
 
@@ -21,8 +20,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
+        return view('product.show',compact('product'));
         //
     }
  
