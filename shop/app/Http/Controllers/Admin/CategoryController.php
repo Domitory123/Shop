@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::getMainCategory()->get();
-        return view('category.index',compact('categories'));
+        return view('admin.category.index',compact('categories'));
     }
 
     /**
@@ -25,7 +25,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view('category.create',compact('categories'));
+        return view('admin.category.create',compact('categories'));
     }
 
     /**
@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $category->name=$request->input('name');
         $category->save();  
         
-        return redirect()->route('category.index');  
+        return redirect()->route('admin.category.index');  
     }
 
     /**

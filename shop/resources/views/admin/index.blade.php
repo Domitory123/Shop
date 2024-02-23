@@ -21,9 +21,22 @@
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="{{ route('product.create') }}">
-              <i class="bi bi-circle"></i><span>Товари</span>
+              <i class="bi bi-circle"></i><span>створити товар</span>
             </a>
           </li>
+
+          <li>
+            <a href="{{ route('product.selectEdit') }}">
+              <i class="bi bi-circle"></i><span>редагувати товар</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ route('product.selectDestroy') }}">
+              <i class="bi bi-circle"></i><span>видалити товар</span>
+            </a>
+          </li>
+
           <li>
             <a href="{{ route('category.create') }}">
               <i class="bi bi-circle"></i><span>Категорії</span>
