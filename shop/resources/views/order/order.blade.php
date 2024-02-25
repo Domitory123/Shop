@@ -8,7 +8,7 @@
 
 <h3>статус: {{$order->status}}</h3>
 
-    @foreach($order->products as $product)
+   @foreach($order->products as $product) 
 
     <div class="card" style="width: 18rem;">
     {{-- <img src="..." class="card-img-top" alt="..."> --}}
@@ -17,11 +17,37 @@
         <p class="card-text">{{$product->description}}</p>
         <p class="card-text">{{$product->price}}</p>
     
-    </div>
-    </div>
-    <br>
+     </div>
+     </div>
+     <br>
     @endforeach 
 @endforeach 
+
+
+<div class="pagination">
+    {{-- Попередня сторінка --}}
+    @if ($orders->onFirstPage())
+        <span>&laquo; Попередня</span>
+    @else
+        <a href="{{ $orders->previousPageUrl() }}">&laquo; Попередня</a>
+    @endif
+
+    {{-- Нумерація сторінок --}}
+    @for ($i = 1; $i <= $orders->lastPage(); $i++)
+<span>_</span>
+        <a href="{{ $orders->url($i) }}">{{ $i }}</a>
+        <span>_</span>
+    @endfor
+
+    {{-- Наступна сторінка --}}
+    @if ($orders->hasMorePages())
+        <a href="{{ $orders->nextPageUrl() }}">Наступна &raquo;</a>
+    @else
+        <span>Наступна &raquo;</span>
+    @endif
+</div>
+
+
 
 
 

@@ -22,10 +22,11 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required',
+            'phone' => 'required|numeric',
             'delivery_address' => 'required|string|max:255',
             'comment' => 'nullable|string|max:1000',
             'name_user' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
         ];
     }
 }

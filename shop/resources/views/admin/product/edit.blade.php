@@ -12,7 +12,7 @@
         @method('PATCH')
 
         <p>Категорія</p>
-      <select name="category_id"> 
+      <select name="category_id">
         @foreach($categories  as $category)
         <option selected value="{{$product->category->id}}">{{$product->category->name}}</option>
           <option value="{{$category->id}}">{{$category->name}}</option>

@@ -16,10 +16,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $products = Product::get();
         $categories = Category::get();
-        return view('admin.product.create', compact('categories','products'));
-
+        return view('admin.product.create', compact('categories'));
        // чомусь не підгружаються стилі до бокової менюшки 
         //return view('admin.create',compact('categories','products'));
     }
@@ -29,8 +27,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $request->validated();
-        Product::create($request->all());
+        Product::create($request->validated());
         return redirect()->route('product.index');  
     }
 
@@ -48,15 +45,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $request->validated();
-
-        $product->update([
-            'description' => $request->description,
-            'name' => $request->name,
-            'price' => $request->price,
-            'category_id' => $request->category_id,
-        ]);
-
+        $product->update($request->validated());
         return view('product.show',compact('product'));
     }
 

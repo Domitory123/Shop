@@ -30,15 +30,13 @@ class OrderController extends Controller
 
     public function order(OrderRequest $request)
     {
-      $request->validated();
-      
       if (auth()->check()) {
-            $this->orderAuth($request->all());
+            $this->orderAuth($request->validated());
             return redirect()->route('product.index');
       }
 
-      $cart = Cart::where('session_id', Cookie::get('guest_session_id'))->first();  
-      $order =  $this->store($request->all());
+      $cart = Cart::where('session_id', Cookie::get('guest_session_id'))->first();  //перевіряти на існування 
+      $order =  $this->store($request->validated());
           
       foreach ($cart->products as $product) {
         $order
@@ -59,36 +57,36 @@ class OrderController extends Controller
     public  function orderAuth($orderData)
     {
         $user = auth()->user();
-        $order = $this->store($orderData,$user->id);
-      
+
+        $order = $user->orders()->create($orderData + [
+          'status' => Lang::get('base.status')],
+         );
+
         foreach ($user->cart->products as $product) {
             $order
             ->products()
-            ->attach($product, ['quantity' => $product->pivot->quantity, 'price' => $product->price*$product->pivot->quantity]);
+            ->attach($product, [
+             'quantity' => $product->pivot->quantity,
+             'price' => $product->price * $product->pivot->quantity ]);
         }
 
         $user->cart->delete();    
     }
 
-
     public  function store($orderData, $idUser = 0)
     {
-        $data = [
+        $data = array_merge($orderData, [
             'user_id' => $idUser,
-            'phone' => $orderData['phone'],
-            'delivery_address' => $orderData['delivery_address'],
-            'comment' => $orderData['comment'],
-            'name_user' => $orderData['name_user'],
-            'status' => Lang::get('base.status') ,
-        ];
-
-     return  Order::create($data);
+            'status' => Lang::get('base.status'),
+        ]);
+    
+        return Order::create($data);
     }
 
     public function show()
     {    
-       $orders = auth()->user()->orders;
+       $orders = auth()->user()->orders()->paginate(2);
        return view('order.order' ,compact('orders'));    
     }
-
+   
 }

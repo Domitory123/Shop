@@ -21,7 +21,7 @@ class CartController extends Controller
                 $cart = auth()->user()->cart;
             }
         } else {
-            $guestSessionId = Cookie::get('guest_session_id');
+            $guestSessionId = cookie('guest_session_id');
             $cart = Cart::where('session_id', $guestSessionId)->first();   
         }
             
@@ -40,19 +40,17 @@ class CartController extends Controller
    
         $productId = $request->input('product_id');
         $sessionId = session()->getId();
-        $guestSessionId = Cookie::get('guest_session_id');
-    
-        if (is_null($guestSessionId)) 
-        {        
-            $minutes = 3*24*60;
-            Cookie::queue(Cookie::make('guest_session_id', $sessionId, $minutes));
+        $guestSessionId = cookie('guest_session_id');
+  
+        if (is_null($guestSessionId)) {        
+            $minutes = config('custom.cookie_lifetime');
+            cookie()->queue('guest_session_id', $sessionId, $minutes);
             $cart = new Cart();
             $cart->session_id = $sessionId;
             $cart->save();
 
             $cart->products()->attach($productId, ['quantity' => 1]);
-        } else 
-        {
+        } else {
             //якщо товар вже додано то збільшити його кількість якщо якщо ні просто додати його 
             $cart = Cart::where('session_id', $guestSessionId)->first();
             $cartProduct = $cart->products->find($productId);
@@ -60,8 +58,10 @@ class CartController extends Controller
             if (is_null($cartProduct)) {
                 $cart->products()->attach($productId, ['quantity' => 1]);
             } else {
-                $quantity = $cartProduct->pivot->quantity;
-                $cartProduct->pivot->update(['quantity' => $quantity + 1]);
+               // $quantity = $cartProduct->pivot->quantity;
+              // $cartProduct->pivot->update(['quantity' => $quantity + 1]);
+                $cartProduct->pivot->increment('quantity');
+
             }    
         }
         
@@ -79,23 +79,21 @@ class CartController extends Controller
      { 
         $user = auth()->user();
     
-        if (is_null($user->cart)) 
-        {
+        if (is_null($user->cart)) {
             $cart = new Cart();
             $cart->user_id = $user->id;
             $cart->session_id = 0;
             $cart->save();
             $cart->products()->attach($productId, ['quantity' => 1]);  
-        } else 
-        {
+        } else {
             $cart = $user->cart;
             $cartProduct = $cart->products->find($productId);
         
             if (is_null($cartProduct)) {
                 $cart->products()->attach($productId, ['quantity' => 1]);
             } else {
-                $quantity = $cartProduct->pivot->quantity;
-                $cartProduct->pivot->update(['quantity' => $quantity + 1]);
+              //  $quantity = $cartProduct->pivot->quantity;
+                $cartProduct->pivot->increment('quantity');
             }    
         }
      }

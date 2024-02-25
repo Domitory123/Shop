@@ -33,17 +33,12 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $request->validated();
-        $category = new Category();  
-         
-        if (!is_null($request->input('category'))){
-            $category->parent_id=$request->input('category');
-        }
-            
-        $category->name=$request->input('name');
-        $category->save();  
-        
-        return redirect()->route('admin.category.index');  
+        Category::create([
+            'parent_id' => $request->filled('category') ? $request->input('category') : null,
+            'name' => $request->input('name'),
+        ]);
+
+        return redirect()->route('category.index'); 
     }
 
     /**

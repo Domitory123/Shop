@@ -25,7 +25,28 @@
 <br>
    @endforeach 
 
+   <div class="pagination">
+    {{-- Попередня сторінка --}}
+    @if ($products->onFirstPage())
+        <span>&laquo; Попередня</span>
+    @else
+        <a href="{{ $products->previousPageUrl() }}">&laquo; Попередня</a>
+    @endif
 
+    {{-- Нумерація сторінок --}}
+    @for ($i = 1; $i <= $products->lastPage(); $i++)
+<span>_</span>
+        <a href="{{ $products->url($i) }}">{{ $i }}</a>
+        <span>_</span>
+    @endfor
+
+    {{-- Наступна сторінка --}}
+    @if ($products->hasMorePages())
+        <a href="{{ $products->nextPageUrl() }}">Наступна &raquo;</a>
+    @else
+        <span>Наступна &raquo;</span>
+    @endif
+</div>
 
 
 
