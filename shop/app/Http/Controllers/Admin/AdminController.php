@@ -22,6 +22,14 @@ class AdminController extends Controller
     ->selectRaw('SUM(order_product.price) as total_price, SUM(order_product.quantity) as total_quantity')
     ->first();
 
+    // $total = Order::where('created_at', '>=', $dayAgo)
+    // ->with(['products' => function ($query) {
+    //     $query->selectRaw('SUM(order_product.price) as total_price, SUM(order_product.quantity) as total_quantity')
+    //           ->groupBy('order_product.order_id', 'order_product.product_id', 'order_product.quantity', 'order_product.price');
+    // }])
+    // ->first();
+    //  dd($total);
+
     return view('admin.statistic' ,[
           'quantity' => $total['total_price'],
           'totalPrice' => $total['total_quantity'],

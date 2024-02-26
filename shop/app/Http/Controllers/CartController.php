@@ -20,8 +20,9 @@ class CartController extends Controller
             if (!is_null(auth()->user()->cart)) {
                 $cart = auth()->user()->cart;
             }
-        } else {
-            $guestSessionId = cookie('guest_session_id');
+        } else {      
+         //cookie(); не повертає значення guest_session_id тому використовую Cookie::get
+            $guestSessionId = Cookie::get('guest_session_id');
             $cart = Cart::where('session_id', $guestSessionId)->first();   
         }
             
@@ -37,22 +38,23 @@ class CartController extends Controller
             $this->storeforAuth($request->input('product_id')); 
             return redirect()->route('cart.index');
         }
-   
+
         $productId = $request->input('product_id');
         $sessionId = session()->getId();
-        $guestSessionId = cookie('guest_session_id');
-  
+        $guestSessionId = Cookie::get('guest_session_id');
+ 
         if (is_null($guestSessionId)) {        
             $minutes = config('custom.cookie_lifetime');
             cookie()->queue('guest_session_id', $sessionId, $minutes);
             $cart = new Cart();
             $cart->session_id = $sessionId;
             $cart->save();
-
             $cart->products()->attach($productId, ['quantity' => 1]);
         } else {
+           
             //якщо товар вже додано то збільшити його кількість якщо якщо ні просто додати його 
             $cart = Cart::where('session_id', $guestSessionId)->first();
+
             $cartProduct = $cart->products->find($productId);
         
             if (is_null($cartProduct)) {

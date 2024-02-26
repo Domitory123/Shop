@@ -35,7 +35,13 @@ class OrderController extends Controller
             return redirect()->route('product.index');
       }
 
-      $cart = Cart::where('session_id', Cookie::get('guest_session_id'))->first();  //перевіряти на існування 
+      $guestSessionId = Cookie::get('guest_session_id');
+
+      if (is_null($guestSessionId)) {
+        return redirect()->route('product.index');
+      }
+
+      $cart = Cart::where('session_id', $guestSessionId)->first();
       $order =  $this->store($request->validated());
           
       foreach ($cart->products as $product) {
@@ -45,7 +51,7 @@ class OrderController extends Controller
       }
 
         $cart->delete();
-        Cart::where('session_id', Cookie::get('guest_session_id'))->delete();
+        Cart::where('session_id', $guestSessionId)->delete();
 
         $minutes = -1;
         Cookie::queue(Cookie::make('guest_session_id', 0, $minutes));

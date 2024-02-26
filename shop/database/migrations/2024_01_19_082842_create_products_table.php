@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('photo')->nullable();
             $table->text('description')->nullable(); 
-            $table->decimal('price', 10, 2); // Ціна товару до двох знаків після коми
-            $table->bigInteger("category_id")->constrained()->onDelete('cascade');
+            $table->decimal('price', 10, 2);
+            $table->foreignId("category_id")->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
