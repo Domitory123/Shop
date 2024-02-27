@@ -34,7 +34,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         Category::create([
-            'parent_id' => $request->filled('category') ? $request->input('category') : null,
+            'parent_id' => $request->filled('category') ? $request->input('category') : 0,
             'name' => $request->input('name'),
         ]);
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->nullable();
+            $table->unsignedBigInteger('user_id')->constrained()->nullable();
             $table->string('session_id'); // ідентифікатор сесії користувача
             $table->timestamps();
         });

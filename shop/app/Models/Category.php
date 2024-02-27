@@ -27,7 +27,7 @@ class Category extends Model
 
     public function scopeGetMainCategory($query)
     {
-        return $query->whereNull('parent_id');
+        return $query->where('parent_id', 0);
     }
 
 }
