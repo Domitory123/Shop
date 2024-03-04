@@ -26,14 +26,8 @@
           </li>
 
           <li>
-            <a href="{{ route('product.selectEdit') }}">
-              <i class="bi bi-circle"></i><span>редагувати товар</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="{{ route('product.selectDestroy') }}">
-              <i class="bi bi-circle"></i><span>видалити товар</span>
+            <a href="{{ route('product.select') }}">
+              <i class="bi bi-circle"></i><span>редагувати\ видалити товар</span>
             </a>
           </li>
 

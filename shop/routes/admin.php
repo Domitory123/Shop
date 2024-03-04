@@ -14,8 +14,7 @@ use App\Http\Controllers\Admin\AdminController;
   
   Route::prefix('product')->controller(ProductController::class)->group(function () {
     Route::get('showDestroy/{product}', 'showDestroy')->name('product.showDestroy');
-    Route::get('selectDestroy', 'selectDestroy')->name('product.selectDestroy');
-    Route::get('selectEdit', 'selectEdit')->name('product.selectEdit');
+    Route::get('select', 'select')->name('product.select');
   });
 
   Route::controller(AdminController::class)->group(function () {

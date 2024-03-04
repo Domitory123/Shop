@@ -60,21 +60,13 @@ class ProductController extends Controller
   /**
      * Remove the specified resource from storage.
      */
-    public function selectEdit()
+    public function select()
     {
-        $products = Product::get();
-        return view('admin.product.selectEdit', compact('products'));
+        $products = Product::paginate(10);
+        return view('admin.product.select', compact('products'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function selectDestroy()
-    {
-        $products = Product::get();
-        return view('admin.product.selectDestroy', compact('products'));
-    }
-
+ 
   /**
      * Remove the specified resource from storage.
      */
